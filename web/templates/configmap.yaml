@@ -1,18 +1,24 @@
-{{- if .Values.volumes }}
-{{- if .Values.volumes.configMaps }}
-{{ range $cm := .Values.volumes.configMaps}}
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $cm.name }}
-  labels:
-    {{- include "base.labels" $ | nindent 4 }}
+  name: gitguard-consumer-config
 data:
-  {{- range $filename, $content := $cm.data }}
-  {{ $filename }}: |-
-{{ $content | toString | indent 4}}
-  {{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
+  config.yaml: |
+    kafka:
+      brokers: {{ toYaml .Values.config.kafka.brokers | nindent 8 }}
+
+    postgres:
+      addr: "{{ .Values.config.postgres.addr }}"
+      user: "{{ .Values.config.postgres.user }}"
+      password: "{{ .Values.config.postgres.password }}"
+      dbname: "{{ .Values.config.postgres.dbname }}"
+
+    pagerduty:
+      enabled: {{ .Values.config.pagerduty.enabled }}
+
+    slack:
+      enabled: {{ .Values.config.slack.enabled }}
+      channel_id: {{ .Values.config.slack.channel_id | quote }}
+
+    rules:
+{{ toYaml .Values.config.rules | indent 6 }}
