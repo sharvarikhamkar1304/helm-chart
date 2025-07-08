@@ -2,7 +2,7 @@ base:
   image:
     pullPolicy: "Always"
     command: ["./gitguard-consumer", "events"]
-    repository: sharvari1304/gitguard-consumer
+    repository:  registry.ldc.opstree.dev/sentryfuse/gitguard-consumer
     tag: latest
     pullSecrets: ""
   env:
@@ -18,8 +18,7 @@ healthcheck:
 service:
   type: ClusterIP
   port: 8080
-  metrics:       
-    enabled: false
+
 resources: {}
 
 volumes:
@@ -29,10 +28,10 @@ volumes:
       data:
         config.yaml: |
           kafka:
-            brokers: [""]
+            brokers: ["192.168.10.52:9092"]
 
           postgres:
-            addr: ""
+            addr: "192.168.10.52:5432"
             user: "postgres"
             password: "password"
             dbname: "git_guard"
