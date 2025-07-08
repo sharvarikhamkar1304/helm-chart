@@ -4,13 +4,13 @@ kind: Service
 metadata:
   name: {{ include "base.fullname" . }}
   annotations:
-  {{- if and (.Values.service.metrics) (.Values.service.metrics.enabled) }}
-    prometheus.io/path: "{{ .Values.service.metrics.path | default "/metrics" }}"
-    prometheus.io/port: "{{ .Values.service.metrics.port | default "8080" }}"
+  {{- if .Values.service.metrics }}
+    prometheus.io/path: "{{ .Values.service.metrics.path }}"
+    prometheus.io/port: "{{ .Values.service.metrics.port }}"
     prometheus.io/scrape: "true"
   {{- end }}
   labels:
-    {{- include "base.labels" . | nindent 4 }}
+      {{- include "base.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
