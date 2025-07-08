@@ -4,7 +4,7 @@ base:
     command: ["./gitguard-consumer", "events"]
     repository:  registry.ldc.opstree.dev/sentryfuse/gitguard-consumer
     tag: latest
-    pullSecrets: ""
+    pullSecrets: "sentryfuse-harbor-secret"
   env:
     - name: FORCE_ROLLOUT
       value: "{{ .Release.Time }}"
