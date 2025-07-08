@@ -18,7 +18,8 @@ healthcheck:
 service:
   type: ClusterIP
   port: 8080
-
+  metrics:       
+    enabled: false
 resources: {}
 
 volumes:
